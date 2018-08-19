@@ -141,121 +141,85 @@ def test_max_heap():
 	# test insert, len, best, pop_best
 	max_heap = MaxHeap()
 	assert 0 == len(max_heap)
-	assert max_heap._satisfies_heap_property()
 	
 	max_heap.insert(1337)
 	assert 1    == len(max_heap)
 	assert 1337 == max_heap.best()
 	assert 1337 == max_heap.pop_best()
-	assert max_heap._satisfies_heap_property()
 	assert 0    == len(max_heap)
 
 	max_heap.insert(-11)
-	assert max_heap._satisfies_heap_property()
 	max_heap.insert(2)
-	assert max_heap._satisfies_heap_property()
 	max_heap.insert(4)
-	assert max_heap._satisfies_heap_property()
 	max_heap.insert(9)
-	assert max_heap._satisfies_heap_property()
 	assert 4   == len(max_heap)
 	assert 9   == max_heap.best()
 	assert 9   == max_heap.pop_best() # should remove 9
-	assert max_heap._satisfies_heap_property()
 	assert 3   == len(max_heap)
 	assert 4   == max_heap.best()
 	assert 4   == max_heap.pop_best() # should remove 4
-	assert max_heap._satisfies_heap_property()
 	assert 2   == len(max_heap)
 	assert 2   == max_heap.best()
 	assert 2   == max_heap.pop_best() # should remove 2
-	assert max_heap._satisfies_heap_property()
 	assert 1   == len(max_heap)
 	assert -11 == max_heap.best()
 	assert -11 == max_heap.pop_best() # should remove 2
-	assert max_heap._satisfies_heap_property()
-	assert   0 == len(max_heap)
+	assert 0   == len(max_heap)
 
 	# test build
 	max_heap.array = [-57, -2, -1, 0, 1, 2]
 	max_heap.build()
-	assert max_heap._satisfies_heap_property()
 	assert [2, 1, -1, 0, -2, -57] == max_heap.array
 	assert 2   == max_heap.pop_best()
-	assert max_heap._satisfies_heap_property()
 	assert 1   == max_heap.pop_best()
-	assert max_heap._satisfies_heap_property()
 	assert 0   == max_heap.pop_best()
-	assert max_heap._satisfies_heap_property()
 	assert -1  == max_heap.pop_best()
-	assert max_heap._satisfies_heap_property()
 	assert -2  == max_heap.pop_best()
-	assert max_heap._satisfies_heap_property()
 	assert -57 == max_heap.pop_best()
-	assert max_heap._satisfies_heap_property()
 
 def test_min_heap():
 	# test insert, len, best, pop_best
 	min_heap = MinHeap()
 	assert 0 == len(min_heap)
-	assert min_heap._satisfies_heap_property()
 
 	min_heap.insert(-666)
-	assert min_heap._satisfies_heap_property()
 	assert 1    == len(min_heap)
 	assert -666 == min_heap.best()
 	assert -666 == min_heap.pop_best()
 	assert 0    == len(min_heap)
 
 	min_heap.insert(99)
-	assert min_heap._satisfies_heap_property()
 	min_heap.insert(0)
-	assert min_heap._satisfies_heap_property()
 	min_heap.insert(-3)
-	assert min_heap._satisfies_heap_property()
 	min_heap.insert(-3) # purposely a duplicate
-	assert min_heap._satisfies_heap_property()
 	min_heap.insert(6)
-	assert min_heap._satisfies_heap_property()
 	assert 5  == len(min_heap)
 	assert -3 == min_heap.best()
 	assert -3 == min_heap.pop_best() # should remove a -3
-	assert min_heap._satisfies_heap_property()
 	assert 4  == len(min_heap)
 	assert -3 == min_heap.best()
 	assert -3 == min_heap.pop_best() # should remove -3
-	assert min_heap._satisfies_heap_property()
 	assert 3  == len(min_heap)
 	assert 0  == min_heap.best()
 	assert 0  == min_heap.pop_best() # should remove 0
-	assert min_heap._satisfies_heap_property()
 	assert 2  == len(min_heap)
 	assert 6  == min_heap.best()
 	assert 6  == min_heap.pop_best() # should remove 6
-	assert min_heap._satisfies_heap_property()
 	assert 1  == len(min_heap)
 	assert 99 == min_heap.best()
 	assert 99 == min_heap.pop_best() # should remove 99
-	assert min_heap._satisfies_heap_property()
 	assert 0  == len(min_heap)
 
 	# test build
 	min_heap.array = [-1,0,-2,0,1,3]
 	min_heap.build()
-	assert min_heap._satisfies_heap_property()
 	assert [-2, 0, -1, 0, 1, 3] == min_heap.array
 	assert -2 == min_heap.pop_best()
-	assert min_heap._satisfies_heap_property()
 	assert -1 == min_heap.pop_best()
-	assert min_heap._satisfies_heap_property()
 	assert 0  == min_heap.pop_best()
-	assert min_heap._satisfies_heap_property()
 	assert 0  == min_heap.pop_best()
-	assert min_heap._satisfies_heap_property()
 	assert 1  == min_heap.pop_best()
-	assert min_heap._satisfies_heap_property()
 	assert 3  == min_heap.pop_best()
-	assert min_heap._satisfies_heap_property()
 
 # ------------------------------------------ MAIN
 
