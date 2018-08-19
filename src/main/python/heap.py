@@ -39,6 +39,18 @@ class Heap(abc.ABC):
 	def right(cls, i):
 		return 2 * i + 2
 
+	@classmethod
+	def sort(cls, list_of_elements, reverse = False):
+		if len(list_of_elements) <= 1:
+			return list(list_of_elements)
+		heap = MaxHeap() if reverse else MinHeap()
+		heap.array = list_of_elements
+		heap.build()
+		sorted_elements = []
+		while len(heap) != 0:
+			sorted_elements.append(heap.pop_best())
+		return sorted_elements
+
 	@abc.abstractmethod
 	def _element_i_is_better_than_j(self, i, j):
 		pass
@@ -136,6 +148,16 @@ def test_heap():
 		assert parent == Heap.parent(i)
 		assert left   == Heap.left(i)
 		assert right  == Heap.right(i)
+
+	# test heapsort
+	assert [] == Heap.sort([])
+
+	assert [0.6543] == Heap.sort([0.6543])
+	assert [9173] == Heap.sort([9173], reverse = True)
+
+	assert [1, 2, 3.14] == Heap.sort([3.14, 1, 2])
+	assert [1,-1,-1,-1] == Heap.sort([-1, -1, -1, 1], reverse = True)
+	assert [-3.1, -0.123, 1.3, 2.9, 3.1, 4.0, 5.0, 6.0] == Heap.sort([2.9, -0.123, 6.0, 3.1, 4.0, 1.3, 5.0, -3.1])
 
 def test_max_heap():
 	# test insert, len, best, pop_best
