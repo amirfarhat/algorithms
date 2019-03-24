@@ -1,64 +1,51 @@
+import random
+from collections import deque
 from heap import MaxHeap, MinHeap
 
 # ------------------------------------------ QUEUES
 
-class MaxPriorityQueue:
-
-	def __init__(self):
-		self.max_heap = MaxHeap()
-
-	def __len__(self):
-		return len(self.max_heap)
-
-	def insert(self, element):
-		self.max_heap.insert(element)
-
-	def best(self):
-		return self.max_heap.best()
-
-	def pop_best(self):
-		return self.max_heap.pop_best()
-
-	def set(self, old_element, new_element):
-		while old_element in self.max_heap.array:
-			index_of_old_element = self.max_heap.array.index(old_element)
-			self.max_heap.set(index_of_old_element, new_element)
-
-	def __repr__(self):
-		return repr(self.max_heap)
-
-	def __str__(self):
-		return str(self.max_heap)
-
-
-
-class MinPriorityQueue:
-
-	def __init__(self):
-		self.min_heap = MinHeap()
+class PriortyQueueABC:
+	def __init__(self, heap_constructor):
+		self.heap = heap_constructor() # inited by subclasses
 
 	def __len__(self):
-		return len(self.min_heap)
+		return len(self.heap)
 
 	def insert(self, element):
-		self.min_heap.insert(element)
+		self.heap.insert(element)
+
+	def insert_all(self, elements):
+		for e in elements:
+			self.insert(e)
 
 	def best(self):
-		return self.min_heap.best()
+		return self.heap.best()
 
 	def pop_best(self):
-		return self.min_heap.pop_best()
+		return self.heap.pop_best()
 
 	def set(self, old_element, new_element):
-		while old_element in self.min_heap.array:
-			index_of_old_element = self.min_heap.array.index(old_element)
-			self.min_heap.set(index_of_old_element, new_element)
-		
+		while old_element in self.heap.array:
+			index_of_old_element = self.heap.array.index(old_element)
+			self.heap.set(index_of_old_element, new_element)
+
 	def __repr__(self):
-		return repr(self.min_heap)
+		return repr(self.heap)
 
 	def __str__(self):
-		return str(self.min_heap)
+		return str(self.heap)
+
+
+
+class MaxPriorityQueue(PriortyQueueABC):
+	def __init__(self):
+		PriortyQueueABC.__init__(self, MaxHeap)
+
+
+
+class MinPriorityQueue(PriortyQueueABC):
+	def __init__(self):
+		PriortyQueueABC.__init__(self, MinHeap)
 
 # ------------------------------------------ TEST
 
@@ -111,6 +98,24 @@ def test_max_priority_queue():
 	assert 11 == max_pq.pop_best() # should pop the last 11
 	assert 0 == len(max_pq)
 
+	# test insert_all
+	times = 10
+	for _ in range(times):
+		count = 1000
+		nums = [random.randint(-10**6, 10**6) for _ in range(count)]
+		qnums = deque()
+		qnums.extend(sorted(nums))
+
+		max_pq = MaxPriorityQueue()
+		max_pq.insert_all(qnums)
+
+		for i in range(count):
+			assert count - i == len(max_pq)
+			assert qnums.pop() == max_pq.pop_best()
+			assert count - i - 1 == len(max_pq)
+
+
+
 def test_min_priority_queue():
 	# test insert, len, best, pop_best
 	min_pq = MinPriorityQueue()
@@ -151,6 +156,22 @@ def test_min_priority_queue():
 	assert 1   == len(min_pq)
 	assert 15  == min_pq.pop_best() # should pop 15
 	assert 0   == len(min_pq)
+
+	# test insert_all
+	times = 10
+	for _ in range(times):
+		count = 1000
+		nums = [random.randint(-10**6, 10**6) for _ in range(count)]
+		qnums = deque()
+		qnums.extend(sorted(nums, reverse = True))
+
+		max_pq = MinPriorityQueue()
+		max_pq.insert_all(qnums)
+
+		for i in range(count):
+			assert count - i == len(max_pq)
+			assert qnums.pop() == max_pq.pop_best()
+			assert count - i - 1 == len(max_pq)
 
 # ------------------------------------------ MAIN
 
